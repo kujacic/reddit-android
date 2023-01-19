@@ -15,9 +15,11 @@ import java.util.List;
 public class CommunityAdapter extends RecyclerView.Adapter<CommunityHolder> {
 
     private List<Community> communityList;
+    private ClickListener clickListener;
 
-    public CommunityAdapter(List<Community> communityList) {
+    public CommunityAdapter(List<Community> communityList, ClickListener clickListener) {
         this.communityList = communityList;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -33,6 +35,12 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityHolder> {
         Community community = communityList.get(position);
         holder.name.setText(community.getName());
         holder.description.setText(community.getDescription());
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClicked(communityList.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override

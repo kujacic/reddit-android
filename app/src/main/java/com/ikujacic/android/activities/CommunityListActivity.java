@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.ikujacic.android.R;
+import com.ikujacic.android.adapter.ClickListener;
 import com.ikujacic.android.adapter.CommunityAdapter;
 import com.ikujacic.android.api.CommunityApi;
 import com.ikujacic.android.api.RetrofitService;
@@ -22,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommunityListActivity extends AppCompatActivity {
+public class CommunityListActivity extends AppCompatActivity implements ClickListener {
 
     private RecyclerView recyclerView;
 
@@ -55,8 +57,16 @@ public class CommunityListActivity extends AppCompatActivity {
     }
 
     private void populateListView(List<Community> communityList) {
-        CommunityAdapter communityAdapter = new CommunityAdapter(communityList);
+        CommunityAdapter communityAdapter = new CommunityAdapter(communityList, this);
         recyclerView.setAdapter(communityAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+    }
+
+    @Override
+    public void onItemClicked(Object object) {
+        Community community = (Community) object;
+        Intent intent = new Intent(CommunityListActivity.this, PostListActivity.class);
+        intent.putExtra("communityName", community.getName());
+        startActivity(intent);
     }
 }

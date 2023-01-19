@@ -3,29 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="20dp"
-    android:id="@+id/community_id"
+    android:id="@+id/post_id"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/communityListItem_name"
-        android:text="Community Name"
+        android:id="@+id/postListItem_title"
+        android:text="Post Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/communityListItem_desc"
+        android:id="@+id/postListItem_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="Description"
+        android:text="Text"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/communityListItem_name"/>
+        app:layout_constraintTop_toBottomOf="@id/postListItem_title"/>
 
+    <TextView
+        android:id="@+id/postListItem_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Author"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
