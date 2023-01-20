@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="20dp"
     android:id="@+id/post_id"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -23,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:text="Text"
+        android:paddingBottom="20dp"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/postListItem_title"/>
@@ -34,7 +34,7 @@
         android:layout_margin="20dp"
         android:text="Author"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

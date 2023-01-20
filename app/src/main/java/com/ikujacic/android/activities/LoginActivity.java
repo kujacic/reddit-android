@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ikujacic.android.MainActivity;
 import com.ikujacic.android.R;
 import com.ikujacic.android.api.RetrofitService;
 import com.ikujacic.android.api.UserApi;
@@ -70,7 +69,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.code() == 200) {
                     Toast.makeText(LoginActivity.this, "User logged in!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(LoginActivity.this, CommunityListActivity.class));
+                    Intent intent = new Intent(LoginActivity.this, CommunityListActivity.class);
+                    intent.putExtra("user", username);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(LoginActivity.this, "Incorrect Credentials! Try again!", Toast.LENGTH_LONG).show();
                 }

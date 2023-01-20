@@ -14,7 +14,9 @@ import com.ikujacic.android.adapter.ClickListener;
 import com.ikujacic.android.adapter.CommunityAdapter;
 import com.ikujacic.android.api.CommunityApi;
 import com.ikujacic.android.api.RetrofitService;
+import com.ikujacic.android.fragments.PostFragment;
 import com.ikujacic.android.model.Community;
+import com.ikujacic.android.tools.FragmentTransition;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -27,6 +29,7 @@ import retrofit2.Response;
 public class CommunityListActivity extends AppCompatActivity implements ClickListener {
 
     private RecyclerView recyclerView;
+    private String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class CommunityListActivity extends AppCompatActivity implements ClickLis
 
         recyclerView = findViewById(R.id.communityList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        user = getIntent().getStringExtra("user");
 
         loadCommunities();
     }
@@ -67,6 +71,16 @@ public class CommunityListActivity extends AppCompatActivity implements ClickLis
         Community community = (Community) object;
         Intent intent = new Intent(CommunityListActivity.this, PostListActivity.class);
         intent.putExtra("communityName", community.getName());
+        intent.putExtra("user", user);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
 }
