@@ -14,9 +14,7 @@ import com.ikujacic.android.adapter.ClickListener;
 import com.ikujacic.android.adapter.CommunityAdapter;
 import com.ikujacic.android.api.CommunityApi;
 import com.ikujacic.android.api.RetrofitService;
-import com.ikujacic.android.fragments.PostFragment;
 import com.ikujacic.android.model.Community;
-import com.ikujacic.android.tools.FragmentTransition;
 
 import java.util.List;
 import java.util.logging.Level;

@@ -1,14 +1,24 @@
 package com.ikujacic.android.activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ikujacic.android.R;
 import com.ikujacic.android.adapter.ClickListener;
@@ -37,6 +47,22 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
 
+        // NE RADI
+
+        /*LayoutInflater  inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View addedView = inflater.inflate(R.layout.post_list_item,null);
+//        ConstraintLayout itemLayout = (ConstraintLayout)inflater.inflate(R.layout.post_list_item,null);
+        MaterialButton upvote = (MaterialButton) addedView.findViewById(R.id.upvote);
+
+        upvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MaterialButton downvote = addedView.findViewById(R.id.downvote);
+                upvote.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.orange_red)));
+                downvote.setIconTint(ColorStateList.valueOf(getResources().getColor(R.color.dark_gray)));
+            }
+        });*/
+
         recyclerView = findViewById(R.id.postList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -50,8 +76,7 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
 
         loadPosts(communityName);
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.postList_fab);
-        floatingActionButton.setOnClickListener(view -> {
+        findViewById(R.id.postList_fab).setOnClickListener(view -> {
             Intent intent = new Intent(this, PostForm.class);
             intent.putExtra("communityName", communityName);
             intent.putExtra("user", user);
