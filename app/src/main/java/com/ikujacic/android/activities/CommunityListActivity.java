@@ -39,6 +39,12 @@ public class CommunityListActivity extends AppCompatActivity implements ClickLis
         user = getIntent().getStringExtra("user");
 
         loadCommunities();
+
+        findViewById(R.id.communityList_fab).setOnClickListener(view -> {
+            Intent intent = new Intent(this, CommunityForm.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+        });
     }
 
     private void loadCommunities() {

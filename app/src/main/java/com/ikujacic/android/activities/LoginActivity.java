@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.code() == 200) {
-                    Toast.makeText(LoginActivity.this, "User logged in!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "User logged in!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, CommunityListActivity.class);
                     intent.putExtra("user", username);
                     startActivity(intent);
