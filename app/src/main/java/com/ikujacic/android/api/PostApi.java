@@ -21,6 +21,9 @@ public interface PostApi {
     @GET("/post/community")
     Call<List<Post>> getByCommunity(@Query("communityName") String communityName);
 
+    @GET("/post")
+    Call<List<Post>> getAll();
+
     @POST("/post")
     Call<Post> create(@Body Post post);
 

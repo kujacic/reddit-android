@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.code() == 200) {
                     Toast.makeText(LoginActivity.this, "User logged in!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, CommunityListActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, PostListActivity.class);
                     intent.putExtra("user", username);
                     startActivity(intent);
                 } else {

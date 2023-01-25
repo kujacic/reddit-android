@@ -12,7 +12,7 @@ import com.ikujacic.android.R;
 
 public class PostHolder extends RecyclerView.ViewHolder {
 
-    TextView title, text, author, reactions;
+    TextView title, text, author, reactions, linkToCommunity;
     MaterialButton upvote, downvote;
     public ConstraintLayout constraintLayout;
 
@@ -21,6 +21,7 @@ public class PostHolder extends RecyclerView.ViewHolder {
         title = itemView.findViewById(R.id.postListItem_title);
         text = itemView.findViewById(R.id.postListItem_text);
         author = itemView.findViewById(R.id.postListItem_author);
+        linkToCommunity = itemView.findViewById(R.id.linkToCommunity);
         upvote = itemView.findViewById(R.id.upvote);
         downvote = itemView.findViewById(R.id.downvote);
         reactions = itemView.findViewById(R.id.reactions);

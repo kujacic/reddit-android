@@ -28,8 +28,8 @@ import retrofit2.Response;
 public class PostListActivity extends AppCompatActivity implements ClickListener {
 
     private RecyclerView recyclerView;
-    static String communityName;
-    static String user;
+    static String communityName, user, communityLink;
+    PostApi postApi = new RetrofitService().getRetrofit().create(PostApi.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,29 +42,46 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
         if(getIntent().getStringExtra("user") != null) {
             user = getIntent().getStringExtra("user");
         }
+
+        TextView label = findViewById(R.id.toolbar_label);
         if(getIntent().getStringExtra("communityName") != null) {
             communityName = getIntent().getStringExtra("communityName");
+
+            label.setText("/" + communityName);
+
+            loadPosts(communityName);
+
+            findViewById(R.id.postList_fab).setOnClickListener(view -> {
+                Intent intent = new Intent(this, PostForm.class);
+                intent.putExtra("communityName", communityName);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            });
+        } else {
+            label.setText("All Posts");
+
+            loadAllPosts();
+
+            findViewById(R.id.postList_fab).setOnClickListener(view -> {
+                Intent intent = new Intent(this, PostForm.class);
+                intent.putExtra("communityName", communityName);
+                intent.putExtra("user", user);
+                startActivity(intent);
+            });
         }
-        TextView label = findViewById(R.id.toolbar_label);
-        label.setText("/" + communityName);
 
-        loadPosts(communityName);
-
-        findViewById(R.id.postList_fab).setOnClickListener(view -> {
-            Intent intent = new Intent(this, PostForm.class);
-            intent.putExtra("communityName", communityName);
+        findViewById(R.id.menu).setOnClickListener(view -> {
+            Intent intent = new Intent(this, MenuActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
         });
     }
 
     private void loadPosts(String community) {
-        RetrofitService retrofitService = new RetrofitService();
-        PostApi postApi = retrofitService.getRetrofit().create(PostApi.class);
         postApi.getByCommunity(community).enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                populateListView(response.body());
+                populateListView(response.body(), false);
             }
 
             @Override
@@ -75,8 +92,23 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
         });
     }
 
-    private void populateListView(List<Post> postList) {
-        PostAdapter postAdapter = new PostAdapter(postList, this, user);
+    private void loadAllPosts() {
+        postApi.getAll().enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                populateListView(response.body(), true);
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Toast.makeText(PostListActivity.this, "Failed to load posts!", Toast.LENGTH_SHORT).show();
+                Logger.getLogger(CommunityListActivity.class.getName()).log(Level.SEVERE, "ERROR LOADING POSTS", t);
+            }
+        });
+    }
+
+    private void populateListView(List<Post> postList, boolean withLinkToCommunity) {
+        PostAdapter postAdapter = new PostAdapter(postList, this, user, withLinkToCommunity, getBaseContext());
         recyclerView.setAdapter(postAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
     }
@@ -84,8 +116,6 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
     @Override
     public void onItemClicked(Object object) {
         Post post = (Post) object;
-        RetrofitService retrofitService = new RetrofitService();
-        PostApi postApi = retrofitService.getRetrofit().create(PostApi.class);
         postApi.get(post.getId()).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
@@ -108,12 +138,12 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
         });
     }
 
-    @Override
-    public void onBackPressed()
-    {
-        super.onBackPressed();
-        Intent intent = new Intent(PostListActivity.this, CommunityListActivity.class);
-        intent.putExtra("user", user);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onBackPressed()
+//    {
+//        super.onBackPressed();
+//        Intent intent = new Intent(PostListActivity.this, CommunityListActivity.class);
+//        intent.putExtra("user", user);
+//        startActivity(intent);
+//    }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,7 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31" >
+        tools:targetApi="31">
+        <activity
+            android:name=".activities.AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MenuActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.CommunityForm"
             android:exported="false"
@@ -24,7 +30,7 @@
             android:name=".activities.PostForm"
             android:exported="false"
             android:label="New Post"
-            android:parentActivityName=".activities.PostListActivity" >
+            android:parentActivityName=".activities.PostListActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -32,7 +38,7 @@
         <activity
             android:name=".activities.PostListActivity"
             android:exported="false"
-            android:parentActivityName=".activities.CommunityListActivity" >
+            android:parentActivityName=".activities.CommunityListActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -40,7 +46,7 @@
         <activity
             android:name=".activities.CommunityListActivity"
             android:exported="false"
-            android:label="Communities" >
+            android:label="Communities">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -48,7 +54,7 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:exported="false"
-            android:label="" >
+            android:label="">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -56,7 +62,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false"
-            android:label="" >
+            android:label="">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -64,7 +70,7 @@
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true"
-            android:label="" >
+            android:label="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

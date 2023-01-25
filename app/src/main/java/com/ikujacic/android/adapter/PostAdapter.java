@@ -1,6 +1,9 @@
 package com.ikujacic.android.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ikujacic.android.R;
+import com.ikujacic.android.activities.CommunityListActivity;
+import com.ikujacic.android.activities.PostListActivity;
 import com.ikujacic.android.api.ReactionApi;
 import com.ikujacic.android.api.RetrofitService;
 import com.ikujacic.android.model.Post;
@@ -28,13 +33,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
     private List<Post> postList;
     private ClickListener clickListener;
     private String user;
+    private boolean withLinkToCommunity;
+    private Context context;
     ColorStateList orange, gray, downvote;
     private ReactionApi reactionApi = new RetrofitService().getRetrofit().create(ReactionApi.class);
 
-    public PostAdapter(List<Post> postList, ClickListener clickListener, String user) {
+    public PostAdapter(List<Post> postList, ClickListener clickListener, String user, boolean withLinkToCommunity, Context context) {
         this.postList = postList;
         this.clickListener = clickListener;
         this.user = user;
+        this.withLinkToCommunity = withLinkToCommunity;
+        this.context = context;
     }
 
     @NonNull
@@ -54,6 +63,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
         holder.title.setText(post.getTitle());
         holder.text.setText(post.getText());
         holder.author.setText("by: " + post.getAuthor());
+        if (withLinkToCommunity) {
+            holder.linkToCommunity.setText("/" + post.getCommunityName());
+            holder.linkToCommunity.setPaintFlags(holder.linkToCommunity.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+            holder.linkToCommunity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PostListActivity.class);
+                    intent.putExtra("communityName", post.getCommunityName());
+                    intent.putExtra("user", user);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
+        } else {
+            holder.linkToCommunity.setVisibility(View.GONE);
+        }
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

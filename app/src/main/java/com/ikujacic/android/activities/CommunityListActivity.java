@@ -1,13 +1,13 @@
 package com.ikujacic.android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +47,12 @@ public class CommunityListActivity extends AppCompatActivity implements ClickLis
 
         findViewById(R.id.communityList_fab).setOnClickListener(view -> {
             Intent intent = new Intent(this, CommunityForm.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.menu).setOnClickListener(view -> {
+            Intent intent = new Intent(this, MenuActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
         });
