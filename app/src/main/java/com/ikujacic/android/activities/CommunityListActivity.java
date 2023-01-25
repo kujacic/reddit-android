@@ -1,12 +1,14 @@
 package com.ikujacic.android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ikujacic.android.R;
@@ -33,6 +35,9 @@ public class CommunityListActivity extends AppCompatActivity implements ClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community_list);
+
+        TextView label = findViewById(R.id.toolbar_label);
+        label.setText("Communities");
 
         recyclerView = findViewById(R.id.communityList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

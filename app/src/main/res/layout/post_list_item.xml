@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:id="@+id/post_id"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/upvote_downvote"
-        android:orientation="vertical"
         android:layout_width="55dp"
-        android:paddingLeft="5dp"
         android:layout_height="85dp"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/postListItem_title">
 
@@ -30,10 +30,11 @@
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/group"
-            app:singleSelection="true"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            android:orientation="vertical"
+            app:singleSelection="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/upvote"
@@ -44,9 +45,9 @@
                 app:icon="@drawable/upvote"
                 app:iconGravity="textTop"
                 app:iconTint="@color/dark_gray"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/downvote"
@@ -67,24 +68,24 @@
 
     <TextView
         android:id="@+id/postListItem_title"
-        android:text="Post Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:text="Post Title"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/upvote_downvote"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/postListItem_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text"
         android:paddingBottom="20dp"
+        android:text="Text"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/upvote_downvote"
-        app:layout_constraintTop_toBottomOf="@id/postListItem_title"/>
+        app:layout_constraintTop_toBottomOf="@id/postListItem_title" />
 
     <TextView
         android:id="@+id/postListItem_author"

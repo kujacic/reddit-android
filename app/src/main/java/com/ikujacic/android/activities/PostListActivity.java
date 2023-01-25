@@ -1,12 +1,14 @@
 package com.ikujacic.android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.ikujacic.android.R;
 import com.ikujacic.android.adapter.ClickListener;
@@ -43,7 +45,8 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
         if(getIntent().getStringExtra("communityName") != null) {
             communityName = getIntent().getStringExtra("communityName");
         }
-        setTitle("/" + communityName);
+        TextView label = findViewById(R.id.toolbar_label);
+        label.setText("/" + communityName);
 
         loadPosts(communityName);
 
