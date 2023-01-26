@@ -1,7 +1,9 @@
 package com.ikujacic.android.api;
 
 import com.ikujacic.android.model.Community;
+import com.ikujacic.android.model.Flair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -17,4 +19,7 @@ public interface CommunityApi {
 
     @POST("/community")
     Call<Void> create(@Body Community community, @Query("user") String user);
+
+    @GET("/community/flair")
+    Call<ArrayList<String>> getFlairsForCommunity(@Query("community") String communityName);
 }

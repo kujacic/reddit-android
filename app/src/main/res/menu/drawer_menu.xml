@@ -13,11 +13,15 @@
             android:title="Posts"/>
     </group>
 
-    <item android:title="Account">
+    <item android:title="Account"
+        android:id="@+id/account">
         <menu>
             <item android:id="@+id/nav_settings"
                 android:icon="@drawable/baseline_account_circle_24"
                 android:title="Account Settings"/>
+            <item android:id="@+id/nav_karma"
+                android:icon="@drawable/karma"
+                android:title="User Karma"/>
             <item android:id="@+id/nav_log_out"
                 android:icon="@drawable/baseline_logout_24"
                 android:title="Sign Out"/>

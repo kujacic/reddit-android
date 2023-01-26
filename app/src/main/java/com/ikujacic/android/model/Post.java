@@ -8,23 +8,18 @@ public class Post {
     private String author;
     private String communityName;
     private Integer karma;
+    private String flair;
 
     public Post() {}
 
-    public Post(String title, String text, String author, String communityName) {
-        this.title = title;
-        this.text = text;
-        this.author = author;
-        this.communityName = communityName;
-    }
-
-    public Post(Integer id, String title, String text, String author, String communityName, Integer karma) {
+    public Post(Integer id, String title, String text, String author, String communityName, Integer karma, String flair) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.author = author;
         this.communityName = communityName;
         this.karma = karma;
+        this.flair = flair;
     }
 
     public Integer getId() {
@@ -73,5 +68,13 @@ public class Post {
 
     public void setKarma(Integer karma) {
         this.karma = karma;
+    }
+
+    public String getFlair() {
+        return flair;
+    }
+
+    public void setFlair(String flair) {
+        this.flair = flair;
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.ikujacic.android.R;
+import com.ikujacic.android.api.ReactionApi;
 import com.ikujacic.android.api.RetrofitService;
 import com.ikujacic.android.api.UserApi;
 import com.ikujacic.android.model.User;
@@ -30,7 +32,9 @@ public class MenuActivity extends AppCompatActivity implements
 
     private String user;
     private TextView usernameText, emailText;
+    MenuItem karma;
     private UserApi userApi = new RetrofitService().getRetrofit().create(UserApi.class);
+    private ReactionApi reactionApi = new RetrofitService().getRetrofit().create(ReactionApi.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,25 @@ public class MenuActivity extends AppCompatActivity implements
         usernameText = headerLayout.findViewById(R.id.menu_username);
         emailText = headerLayout.findViewById(R.id.menu_email);
         loadUserData(user);
+        loadUserKarma();
+        Menu menu = navigationView.getMenu();
+        karma = menu.findItem(R.id.nav_karma);
+    }
+
+    private void loadUserKarma() {
+        reactionApi.getUserKarma(user).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.code() == 200) {
+                    karma.setTitle("Karma: " + response.body());
+                } else {
+                    karma.setTitle("Karma: 0");
+                }
+            }
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+            }
+        });
     }
 
     private void loadUserData(String user) {
@@ -93,4 +116,5 @@ public class MenuActivity extends AppCompatActivity implements
         }
         return false;
     }
+
 }

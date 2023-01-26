@@ -34,7 +34,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
     private String user;
     private boolean withLinkToCommunity;
     private Context context;
-    ColorStateList orange, gray, downvote;
+    ColorStateList orange, gray, downvote, flair1, flair2, flair3;
     private ReactionApi reactionApi = new RetrofitService().getRetrofit().create(ReactionApi.class);
 
     public PostAdapter(List<Post> postList, ClickListener clickListener, String user, boolean withLinkToCommunity, Context context) {
@@ -50,10 +50,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
     public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.post_list_item, parent, false);
+        View viewForFlare = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.activity_post_form, parent, false);
         orange = ColorStateList.valueOf(parent.getResources().getColor(R.color.reddit_orange));
         gray = ColorStateList.valueOf(parent.getResources().getColor(R.color.dark_gray));
         downvote = ColorStateList.valueOf(parent.getResources().getColor(R.color.downvote));
-        return new PostHolder(view);
+        flair1 = ColorStateList.valueOf(parent.getResources().getColor(R.color.flair1));
+        flair2 = ColorStateList.valueOf(parent.getResources().getColor(R.color.flair2));
+        flair3 = ColorStateList.valueOf(parent.getResources().getColor(R.color.flair3));
+        return new PostHolder(view, viewForFlare);
     }
 
     @Override
@@ -62,6 +67,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
         holder.title.setText(post.getTitle());
         holder.text.setText(post.getText());
         holder.author.setText("by: " + post.getAuthor());
+        if (post.getFlair() != null) {
+            holder.flairText.setText(post.getFlair());
+            holder.flair.setText(post.getFlair());
+            if (post.getFlair().equals("Discussion")) {
+                holder.flair.setBackgroundTintList(flair1);
+            } else if (post.getFlair().equals("Review")) {
+                holder.flair.setBackgroundTintList(flair2);
+            } else {
+                holder.flair.setBackgroundTintList(flair3);
+            }
+        }
         if (withLinkToCommunity) {
             holder.linkToCommunity.setText("/" + post.getCommunityName());
             holder.linkToCommunity.setPaintFlags(holder.linkToCommunity.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -105,7 +121,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
     }
 
     public void calculateReactionDelta(Integer id, PostHolder holder) {
-        reactionApi.get(id, user).enqueue(new Callback<ReactionCount>() {
+        reactionApi.getforPost(id, user).enqueue(new Callback<ReactionCount>() {
             @Override
             public void onResponse(Call<ReactionCount> call, Response<ReactionCount> response) {
                 ReactionCount result = (ReactionCount) response.body();

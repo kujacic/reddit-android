@@ -2,6 +2,7 @@ package com.ikujacic.android.api;
 
 import com.ikujacic.android.model.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,4 +39,7 @@ public interface PostApi {
 
     @DELETE("/post/{id}")
     Call<Void> delete(@Path("id") Integer id);
+
+    @GET("/post/flair")
+    Call<ArrayList<String>> getFlairsForPost(@Query("postId") String postId);
 }

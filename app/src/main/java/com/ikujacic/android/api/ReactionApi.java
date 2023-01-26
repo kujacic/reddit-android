@@ -12,8 +12,14 @@ import retrofit2.http.Query;
 
 public interface ReactionApi {
 
-    @GET("/reaction/{id}")
-    Call<ReactionCount> get(@Path("id") Integer id, @Query("user") String user);
+    @GET("/reaction/post/{id}")
+    Call<ReactionCount> getforPost(@Path("id") Integer id, @Query("user") String user);
+
+    @GET("/reaction/comment/{id}")
+    Call<ReactionCount> getForComment(@Path("id") Integer id, @Query("user") String user);
+
+    @GET("/reaction/user")
+    Call<Integer> getUserKarma(@Query("user") String user);
 
     @POST("/reaction")
     Call<Void> create(@Body Reaction reaction);

@@ -1,6 +1,7 @@
 package com.ikujacic.android.adapter;
 
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,10 +14,11 @@ import com.ikujacic.android.R;
 public class PostHolder extends RecyclerView.ViewHolder {
 
     TextView title, text, author, reactions, linkToCommunity;
-    MaterialButton upvote, downvote;
+    AutoCompleteTextView flairText;
+    MaterialButton upvote, downvote, flair;
     public ConstraintLayout constraintLayout;
 
-    public PostHolder(@NonNull View itemView) {
+    public PostHolder(@NonNull View itemView, @NonNull View viewForFlare) {
         super(itemView);
         title = itemView.findViewById(R.id.postListItem_title);
         text = itemView.findViewById(R.id.postListItem_text);
@@ -25,6 +27,8 @@ public class PostHolder extends RecyclerView.ViewHolder {
         upvote = itemView.findViewById(R.id.upvote);
         downvote = itemView.findViewById(R.id.downvote);
         reactions = itemView.findViewById(R.id.reactions);
+        flairText = viewForFlare.findViewById(R.id.flairText);
+        flair = itemView.findViewById(R.id.flairPostList);
         constraintLayout = itemView.findViewById(R.id.post_id);
     }
 }

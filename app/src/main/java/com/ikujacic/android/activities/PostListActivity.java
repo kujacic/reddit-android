@@ -75,12 +75,6 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
             loadAllPosts();
 
             findViewById(R.id.postList_fab).setVisibility(View.GONE);
-//            findViewById(R.id.postList_fab).setOnClickListener(view -> {
-//                Intent intent = new Intent(this, PostForm.class);
-//                intent.putExtra("communityName", communityName);
-//                intent.putExtra("user", user);
-//                startActivity(intent);
-//            });
         }
 
         findViewById(R.id.menu).setOnClickListener(view -> {
@@ -139,6 +133,7 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
                 intent.putExtra("title", newPost.getTitle());
                 intent.putExtra("text", newPost.getText());
                 intent.putExtra("postId", post.getId().toString());
+                intent.putExtra("flair", post.getFlair());
                 if (user.equals(post.getAuthor())) {
                     intent.putExtra("editPostId", String.valueOf(post.getId()));
                 }

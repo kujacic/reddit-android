@@ -31,14 +31,34 @@
             android:id="@+id/text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-10dp"
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_edit"
                 android:gravity="top"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:hint="Text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/flair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Flair"
+            android:layout_marginBottom="10dp"
+            app:startIconDrawable="@drawable/flag"
+            app:startIconTint="@color/reddit_orange"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            <AutoCompleteTextView
+                android:id="@+id/flairText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="none"
+                />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

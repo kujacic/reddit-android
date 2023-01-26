@@ -5,9 +5,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,12 +19,17 @@ import android.widget.Toast;
 
 import com.ikujacic.android.R;
 import com.ikujacic.android.adapter.CommentAdapter;
+import com.ikujacic.android.adapter.PostAdapter;
 import com.ikujacic.android.api.CommentApi;
+import com.ikujacic.android.api.CommunityApi;
 import com.ikujacic.android.api.PostApi;
 import com.ikujacic.android.api.RetrofitService;
+import com.ikujacic.android.databinding.ActivityPostFormBinding;
 import com.ikujacic.android.model.Comment;
+import com.ikujacic.android.model.Flair;
 import com.ikujacic.android.model.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,19 +40,26 @@ import retrofit2.Response;
 
 public class PostForm extends AppCompatActivity {
 
+    ActivityPostFormBinding postFormBinding;
     private RecyclerView recyclerView;
     private EditText titleText, textText, newCommentText;
+    private AutoCompleteTextView flairName;
     private String user, communityName, postId;
+    private ArrayList<String> flairs;
     private PostApi postApi = new RetrofitService().getRetrofit().create(PostApi.class);
     private CommentApi commentApi = new RetrofitService().getRetrofit().create(CommentApi.class);
+    private CommunityApi communityApi = new RetrofitService().getRetrofit().create(CommunityApi.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_form);
+        postFormBinding = ActivityPostFormBinding.inflate(getLayoutInflater());
+        setContentView(postFormBinding.getRoot());
+
 
         titleText = findViewById(R.id.title_edit);
         textText = findViewById(R.id.text_edit);
+        flairName = findViewById(R.id.flairText);
         newCommentText = findViewById(R.id.comment_post_edit);
         user = getIntent().getStringExtra("user");
         postId = getIntent().getStringExtra("postId");
@@ -52,11 +68,12 @@ public class PostForm extends AppCompatActivity {
         recyclerView = findViewById(R.id.commentList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        loadFlairs(getBaseContext());
+
         if (getIntent().getStringExtra("title") != null && getIntent().getStringExtra("text") != null) {
-            EditText loadedTitle = (EditText) findViewById(R.id.title_edit);
-            loadedTitle.setText(getIntent().getStringExtra("title"), TextView.BufferType.NORMAL);
-            EditText loadedText = (EditText) findViewById(R.id.text_edit);
-            loadedText.setText(getIntent().getStringExtra("text"), TextView.BufferType.NORMAL);
+            titleText.setText(getIntent().getStringExtra("title"), TextView.BufferType.NORMAL);
+            textText.setText(getIntent().getStringExtra("text"), TextView.BufferType.NORMAL);
+            flairName.setText(getIntent().getStringExtra("flair"));
             Button button = findViewById(R.id.create_post);
             if (getIntent().getStringExtra("editPostId") != null) {
                 // EDIT
@@ -82,11 +99,13 @@ public class PostForm extends AppCompatActivity {
             } else {
                 // VIEW
                 setTitle("");
-                loadedTitle.setKeyListener(null);
-                loadedText.setKeyListener(null);
+                titleText.setKeyListener(null);
+                textText.setKeyListener(null);
                 button.setVisibility(View.GONE);
             }
+
             loadComments();
+
             findViewById(R.id.create_post_comment).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,6 +126,39 @@ public class PostForm extends AppCompatActivity {
         }
     }
 
+    private void loadFlairs(Context context) {
+        if (communityName != null) {
+            communityApi.getFlairsForCommunity(communityName).enqueue(new Callback<ArrayList<String>>() {
+                @Override
+                public void onResponse(Call<ArrayList<String>> call, Response<ArrayList<String>> response) {
+                    if (response.code() == 200) {
+                        flairs = new ArrayList<>();
+                        flairs.addAll(response.body());
+                        postFormBinding.flairText.setAdapter(new ArrayAdapter(context, R.layout.flair_layout, flairs));
+                    }
+                }
+                @Override
+                public void onFailure(Call<ArrayList<String>> call, Throwable t) {
+                }
+            });
+        } else {
+            postApi.getFlairsForPost(postId).enqueue(new Callback<ArrayList<String>>() {
+                @Override
+                public void onResponse(Call<ArrayList<String>> call, Response<ArrayList<String>> response) {
+                    if (response.code() == 200) {
+                        flairs = new ArrayList<>();
+                        flairs.addAll(response.body());
+                        postFormBinding.flairText.setAdapter(new ArrayAdapter(context, R.layout.flair_layout, flairs));
+                    }
+                }
+                @Override
+                public void onFailure(Call<ArrayList<String>> call, Throwable t) {
+                }
+            });
+        }
+
+    }
+
     private void createComment() {
         String newComment = String.valueOf(newCommentText.getText()).trim();
         if(newComment.isEmpty()) {
@@ -120,11 +172,13 @@ public class PostForm extends AppCompatActivity {
             public void onResponse(Call<Comment> call, Response<Comment> response) {
                 if (response.code() == 200) {
                     Toast.makeText(PostForm.this, "Comment successful!", Toast.LENGTH_SHORT).show();
-                    finish();
-                    startActivity(getIntent());
+                    newCommentText.setText("");
+                    newCommentText.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(newCommentText.getWindowToken(), 0);
+                    loadComments();
                 }
             }
-
             @Override
             public void onFailure(Call<Comment> call, Throwable t) {
                 Toast.makeText(PostForm.this, "Comment failed!", Toast.LENGTH_SHORT).show();
@@ -168,7 +222,7 @@ public class PostForm extends AppCompatActivity {
             return;
         }
 
-        postApi.create(new Post(title, text, user, communityName)).enqueue(new Callback<Post>() {
+        postApi.create(new Post(null, title, text, user, communityName, null, String.valueOf(postFormBinding.flairText.getText()))).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.code() == 200) {
@@ -205,7 +259,7 @@ public class PostForm extends AppCompatActivity {
             return;
         }
 
-        postApi.update(new Post(id, title, text, user, communityName, null)).enqueue(new Callback<Post>() {
+        postApi.update(new Post(id, title, text, user, communityName, null, String.valueOf(postFormBinding.flairText.getText()))).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.code() == 200) {

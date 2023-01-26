@@ -62,17 +62,25 @@
                 app:iconTint="@color/dark_gray"
                 app:layout_constraintTop_toBottomOf="@id/reactions" />
 
-
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/flairPostList"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Flair"
+        android:includeFontPadding="false"
+        android:textSize="10dp"
+        app:layout_constraintStart_toEndOf="@id/upvote_downvote"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/postListItem_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="23dp"
         android:text="Post Title"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -83,7 +91,7 @@
         android:id="@+id/postListItem_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
+        android:paddingBottom="10dp"
         android:text="Text"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@id/upvote_downvote"
