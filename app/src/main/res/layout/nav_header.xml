@@ -11,19 +11,21 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_account_circle_24" />
+        android:src="@drawable/account_picture" />
 
     <TextView
         android:id="@+id/menu_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:textSize="26dp"
         android:text="Username"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/menu_email"
         android:layout_width="wrap_content"
+        android:textSize="18dp"
         android:layout_height="wrap_content"
         android:text="email"/>
 

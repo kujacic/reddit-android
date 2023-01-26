@@ -24,6 +24,12 @@ public interface PostApi {
     @GET("/post")
     Call<List<Post>> getAll();
 
+    @GET("/post/sorted")
+    Call<List<Post>> getAllSorted(@Query("sortBy") String sortBy);
+
+    @GET("/post/community/sorted")
+    Call<List<Post>> getByCommunitySorted(@Query("communityName") String communityName, @Query("sortBy") String sortBy);
+
     @POST("/post")
     Call<Post> create(@Body Post post);
 

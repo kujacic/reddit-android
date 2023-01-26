@@ -12,6 +12,7 @@
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:itemTextAppearance="@style/menu_text_style"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu" />

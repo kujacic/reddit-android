@@ -8,14 +8,29 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.ikujacic.android.R;
+import com.ikujacic.android.api.RetrofitService;
+import com.ikujacic.android.api.UserApi;
+import com.ikujacic.android.model.User;
+
+import org.w3c.dom.Text;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MenuActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
     private String user;
+    private TextView usernameText, emailText;
+    private UserApi userApi = new RetrofitService().getRetrofit().create(UserApi.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +43,28 @@ public class MenuActivity extends AppCompatActivity implements
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
+
+        View headerLayout = navigationView.getHeaderView(0);
+        usernameText = headerLayout.findViewById(R.id.menu_username);
+        emailText = headerLayout.findViewById(R.id.menu_email);
+        loadUserData(user);
+    }
+
+    private void loadUserData(String user) {
+        userApi.getByUsername(user).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+                usernameText.setText(user.getUsername());
+                emailText.setText(user.getEmail());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(MenuActivity.this, "Fetching username and email failed!", Toast.LENGTH_SHORT).show();
+                Logger.getLogger(LoginActivity.class.getName()).log(Level.SEVERE, "Fetching username and email failed!", t);
+            }
+        });
     }
 
     @Override

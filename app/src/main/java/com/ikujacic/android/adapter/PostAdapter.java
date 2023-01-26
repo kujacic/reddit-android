@@ -51,7 +51,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
     public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.post_list_item, parent, false);
-        orange = ColorStateList.valueOf(parent.getResources().getColor(R.color.orange_red));
+        orange = ColorStateList.valueOf(parent.getResources().getColor(R.color.reddit_orange));
         gray = ColorStateList.valueOf(parent.getResources().getColor(R.color.dark_gray));
         downvote = ColorStateList.valueOf(parent.getResources().getColor(R.color.downvote));
         return new PostHolder(view);

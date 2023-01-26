@@ -7,6 +7,7 @@ public class Post {
     private String text;
     private String author;
     private String communityName;
+    private Integer karma;
 
     public Post() {}
 
@@ -17,12 +18,13 @@ public class Post {
         this.communityName = communityName;
     }
 
-    public Post(Integer id, String title, String text, String author, String communityName) {
+    public Post(Integer id, String title, String text, String author, String communityName, Integer karma) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.author = author;
         this.communityName = communityName;
+        this.karma = karma;
     }
 
     public Integer getId() {
@@ -63,5 +65,13 @@ public class Post {
 
     public void setCommunityName(String communityName) {
         this.communityName = communityName;
+    }
+
+    public Integer getKarma() {
+        return karma;
+    }
+
+    public void setKarma(Integer karma) {
+        this.karma = karma;
     }
 }

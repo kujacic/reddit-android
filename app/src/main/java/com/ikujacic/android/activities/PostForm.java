@@ -135,7 +135,7 @@ public class PostForm extends AppCompatActivity {
             return;
         }
 
-        postApi.update(new Post(id, title, text, user, communityName)).enqueue(new Callback<Post>() {
+        postApi.update(new Post(id, title, text, user, communityName, null)).enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if (response.code() == 200) {
@@ -180,12 +180,12 @@ public class PostForm extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(PostForm.this, PostListActivity.class);
-        intent.putExtra("user", user);
-        intent.putExtra("communityName", communityName);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(PostForm.this, PostListActivity.class);
+//        intent.putExtra("user", user);
+//        intent.putExtra("communityName", communityName);
+//        startActivity(intent);
+//    }
 }

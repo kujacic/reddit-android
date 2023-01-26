@@ -71,7 +71,7 @@ public class SignUpActivity extends AppCompatActivity {
         RetrofitService retrofitService = new RetrofitService();
         UserApi userApi = retrofitService.getRetrofit().create(UserApi.class);
 
-        userApi.create(new User(username, password, email)).enqueue(new Callback<User>() {
+        userApi.create(new User(null, username, password, email)).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.code() == 200) {
