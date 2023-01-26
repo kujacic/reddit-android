@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ikujacic.android.R;
-import com.ikujacic.android.activities.CommunityListActivity;
 import com.ikujacic.android.activities.PostListActivity;
 import com.ikujacic.android.api.ReactionApi;
 import com.ikujacic.android.api.RetrofitService;

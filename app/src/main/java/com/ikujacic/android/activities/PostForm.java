@@ -1,6 +1,9 @@
 package com.ikujacic.android.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ikujacic.android.R;
+import com.ikujacic.android.adapter.CommentAdapter;
+import com.ikujacic.android.api.CommentApi;
 import com.ikujacic.android.api.PostApi;
 import com.ikujacic.android.api.RetrofitService;
+import com.ikujacic.android.model.Comment;
 import com.ikujacic.android.model.Post;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,9 +31,11 @@ import retrofit2.Response;
 
 public class PostForm extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
     private EditText titleText, textText;
-    private String user, communityName;
+    private String user, communityName, postId;
     private PostApi postApi = new RetrofitService().getRetrofit().create(PostApi.class);
+    private CommentApi commentApi = new RetrofitService().getRetrofit().create(CommentApi.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +45,11 @@ public class PostForm extends AppCompatActivity {
         titleText = findViewById(R.id.title_edit);
         textText = findViewById(R.id.text_edit);
         user = getIntent().getStringExtra("user");
+        postId = getIntent().getStringExtra("postId");
         communityName = getIntent().getStringExtra("communityName");
+
+        recyclerView = findViewById(R.id.commentList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         if (getIntent().getStringExtra("title") != null && getIntent().getStringExtra("text") != null) {
             EditText loadedTitle = (EditText) findViewById(R.id.title_edit);
@@ -72,6 +85,7 @@ public class PostForm extends AppCompatActivity {
                 loadedText.setKeyListener(null);
                 button.setVisibility(View.GONE);
             }
+            loadComments();
         } else {
             // CREATE
             findViewById(R.id.create_post).setOnClickListener(new View.OnClickListener() {
@@ -81,6 +95,26 @@ public class PostForm extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void loadComments() {
+        commentApi.getByPost(postId).enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                populateListView(response.body());
+            }
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Toast.makeText(PostForm.this, "Failed to load comments!", Toast.LENGTH_SHORT).show();
+                Logger.getLogger(PostForm.class.getName()).log(Level.SEVERE, "ERROR LOADING POSTS", t);
+            }
+        });
+    }
+
+    private void populateListView(List<Comment> commentList) {
+        CommentAdapter commentAdapter = new CommentAdapter(commentList, user);
+        recyclerView.setAdapter(commentAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
     }
 
     private void createPost() {

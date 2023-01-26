@@ -74,12 +74,13 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
             isMainPage = true;
             loadAllPosts();
 
-            findViewById(R.id.postList_fab).setOnClickListener(view -> {
-                Intent intent = new Intent(this, PostForm.class);
-                intent.putExtra("communityName", communityName);
-                intent.putExtra("user", user);
-                startActivity(intent);
-            });
+            findViewById(R.id.postList_fab).setVisibility(View.GONE);
+//            findViewById(R.id.postList_fab).setOnClickListener(view -> {
+//                Intent intent = new Intent(this, PostForm.class);
+//                intent.putExtra("communityName", communityName);
+//                intent.putExtra("user", user);
+//                startActivity(intent);
+//            });
         }
 
         findViewById(R.id.menu).setOnClickListener(view -> {
@@ -137,6 +138,7 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
                 intent.putExtra("user", user);
                 intent.putExtra("title", newPost.getTitle());
                 intent.putExtra("text", newPost.getText());
+                intent.putExtra("postId", post.getId().toString());
                 if (user.equals(post.getAuthor())) {
                     intent.putExtra("editPostId", String.valueOf(post.getId()));
                 }
@@ -170,6 +172,10 @@ public class PostListActivity extends AppCompatActivity implements ClickListener
             }
             case R.id.top_rated: {
                 loadPostsSorted("topRated");
+                return true;
+            }
+            case R.id.lowest_rated:_rated: {
+                loadPostsSorted("lowestRated");
                 return true;
             }
             case R.id.hot: {

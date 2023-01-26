@@ -9,6 +9,9 @@
     <item android:id="@+id/top_rated"
         android:title="Top Rated"/>
 
+    <item android:id="@+id/lowest_rated"
+        android:title="Lowest Rated"/>
+
     <item android:id="@+id/hot"
         android:title="Hot"/>
 </menu>
