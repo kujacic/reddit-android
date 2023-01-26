@@ -1,89 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/post_id"
+<LinearLayout android:id="@+id/comment_comment"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/upvote_downvote"
-        android:layout_width="55dp"
-        android:layout_height="70dp"
-        android:orientation="vertical"
-        android:paddingLeft="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/commentListItem_text">
+        android:id="@+id/post_id"
+        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/comment_reactions"
-            android:layout_width="40dp"
-            android:layout_height="15dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="12dp"
-            android:text="6"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/group"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/upvote_downvote"
+            android:layout_width="55dp"
+            android:layout_height="70dp"
             android:orientation="vertical"
-            app:singleSelection="true">
+            android:paddingLeft="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/commentListItem_text">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/upvote_comment"
+            <TextView
+                android:id="@+id/comment_reactions"
                 android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                app:backgroundTint="@android:color/transparent"
-                app:icon="@drawable/upvote_comment"
-                app:iconGravity="textTop"
-                app:iconTint="@color/dark_gray"
+                android:layout_height="15dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="12dp"
+                android:text="6"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/downvote_comment"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                app:backgroundTint="@android:color/transparent"
-                app:icon="@drawable/downvote_comment"
-                app:iconGravity="textTop"
-                app:iconTint="@color/dark_gray"
-                app:layout_constraintTop_toBottomOf="@id/reactions" />
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/upvote_comment"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:outlineProvider="none"
+                    app:backgroundTint="@android:color/transparent"
+                    app:icon="@drawable/upvote_comment"
+                    app:iconGravity="textTop"
+                    app:iconTint="@color/dark_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/downvote_comment"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:outlineProvider="none"
+                    android:gravity="center"
+                    app:backgroundTint="@android:color/transparent"
+                    app:icon="@drawable/downvote_comment"
+                    app:iconGravity="textTop"
+                    app:iconTint="@color/dark_gray"
+                    app:layout_constraintTop_toBottomOf="@id/reactions" />
 
 
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/commentListItem_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Comment"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/upvote_downvote"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/commentListItem_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:text="Author"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/reply"
+            android:layout_width="101dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_height="40dp"
+            android:backgroundTint="@android:color/transparent"
+            android:text="Reply"
+            android:drawableTint="@color/reddit_orange"
+            android:textColor="@color/reddit_orange"
+            android:drawableRight="@drawable/baseline_chat_bubble_24"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/commentListItem_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Comment"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@id/upvote_downvote"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
+            android:id="@+id/reply_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:layout_marginLeft="30dp"
+            app:layout_constraintTop_toBottomOf="@id/upvote_downvote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <TextView
-        android:id="@+id/commentListItem_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Author"
-        android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reply_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:errorEnabled="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reply_edit"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="-20dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Reply"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/submit_reply"
+                android:layout_width="98dp"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_height="40dp"
+                android:backgroundTint="@android:color/transparent"
+                android:text="Reply"
+                android:drawableTint="@color/reddit_orange"
+                android:textColor="@color/reddit_orange"
+                android:drawableRight="@drawable/baseline_chat_bubble_24"
+                android:textSize="12dp"
+                app:layout_constraintTop_toBottomOf="@id/reply_input"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

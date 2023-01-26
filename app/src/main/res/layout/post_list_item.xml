@@ -41,6 +41,7 @@
                 android:layout_width="40dp"
                 android:layout_height="41dp"
                 android:gravity="center"
+                android:outlineProvider="none"
                 app:backgroundTint="@android:color/transparent"
                 app:icon="@drawable/upvote"
                 app:iconGravity="textTop"
@@ -54,6 +55,7 @@
                 android:layout_width="40dp"
                 android:layout_height="41dp"
                 android:gravity="center"
+                android:outlineProvider="none"
                 app:backgroundTint="@android:color/transparent"
                 app:icon="@drawable/downvote"
                 app:iconGravity="textTop"
@@ -105,7 +107,7 @@
         android:clickable="true"
         android:text="Community"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

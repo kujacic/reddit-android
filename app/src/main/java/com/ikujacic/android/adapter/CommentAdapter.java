@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ikujacic.android.R;
+import com.ikujacic.android.api.CommentApi;
+import com.ikujacic.android.api.RetrofitService;
 import com.ikujacic.android.model.Comment;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentHolder> {
     private String user;
     List<Comment> commentList;
     ColorStateList orange, gray, downvote;
+    CommentApi commentApi = new RetrofitService().getRetrofit().create(CommentApi.class);
 
     public CommentAdapter(List<Comment> commentList, String user) {
         this.commentList = commentList;
@@ -40,6 +43,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentHolder> {
         Comment comment = commentList.get(position);
         holder.text.setText(comment.getText());
         holder.author.setText("by: " + comment.getAuthor());
+        holder.reply.setOnClickListener(view -> {
+            toggleView(holder.reply_dialog);
+        });
+    }
+
+    private void createComment(Integer id) {
+
+    }
+
+    public void toggleView(View view){
+        if(view.getVisibility()==View.GONE)
+            view.setVisibility(View.VISIBLE);
+        else if(view.getVisibility()==View.VISIBLE)
+            view.setVisibility(View.GONE);
     }
 
     @Override

@@ -32,7 +32,7 @@ import retrofit2.Response;
 public class PostForm extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private EditText titleText, textText;
+    private EditText titleText, textText, newCommentText;
     private String user, communityName, postId;
     private PostApi postApi = new RetrofitService().getRetrofit().create(PostApi.class);
     private CommentApi commentApi = new RetrofitService().getRetrofit().create(CommentApi.class);
@@ -44,6 +44,7 @@ public class PostForm extends AppCompatActivity {
 
         titleText = findViewById(R.id.title_edit);
         textText = findViewById(R.id.text_edit);
+        newCommentText = findViewById(R.id.comment_post_edit);
         user = getIntent().getStringExtra("user");
         postId = getIntent().getStringExtra("postId");
         communityName = getIntent().getStringExtra("communityName");
@@ -86,7 +87,16 @@ public class PostForm extends AppCompatActivity {
                 button.setVisibility(View.GONE);
             }
             loadComments();
+            findViewById(R.id.create_post_comment).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createComment();
+                }
+            });
         } else {
+            findViewById(R.id.comments_label).setVisibility(View.GONE);
+            findViewById(R.id.new_comment).setVisibility(View.GONE);
+            findViewById(R.id.commentList).setVisibility(View.GONE);
             // CREATE
             findViewById(R.id.create_post).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -95,6 +105,32 @@ public class PostForm extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void createComment() {
+        String newComment = String.valueOf(newCommentText.getText()).trim();
+        if(newComment.isEmpty()) {
+            newCommentText.setError("Comment text is required!");
+            newCommentText.requestFocus();
+            return;
+        }
+
+        commentApi.create(new Comment(null, newComment, null, false, user, Integer.valueOf(postId), null)).enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(PostForm.this, "Comment successful!", Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(getIntent());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Toast.makeText(PostForm.this, "Comment failed!", Toast.LENGTH_SHORT).show();
+                Logger.getLogger(LoginActivity.class.getName()).log(Level.SEVERE, "Comment failed!", t);
+            }
+        });
     }
 
     private void loadComments() {

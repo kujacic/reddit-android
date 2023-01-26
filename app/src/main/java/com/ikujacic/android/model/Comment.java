@@ -9,16 +9,18 @@ public class Comment {
     private boolean isDeleted;
     private String author;
     private Integer postId;
+    private Integer parentId;
 
     public Comment() {}
 
-    public Comment(Integer id, String text, String timestamp, boolean isDeleted, String author, Integer postId) {
+    public Comment(Integer id, String text, String timestamp, boolean isDeleted, String author, Integer postId, Integer parentId) {
         this.id = id;
         this.text = text;
         this.timestamp = timestamp;
         this.isDeleted = isDeleted;
         this.author = author;
         this.postId = postId;
+        this.parentId = parentId;
     }
 
     public Integer getId() {
